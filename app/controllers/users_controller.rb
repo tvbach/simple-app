@@ -5,14 +5,19 @@ class UsersController < ApplicationController
   before_action :check_admin, only: :destroy
 
   def index
-    @users = User.user.page(params[:page]).per(10)
+    @users = User.user.where(activated: true).page(params[:page]).per(10)
   end
 
   def new
     @user = User.new
   end
 
-  def show; end
+  def show
+   @microposts  = @user.microposts.order_micropost.page(params[:page]).per(5)
+    return if @user.activated
+
+    redirect_to root_url
+  end
 
   def create
     @user = User.new user_params
@@ -39,7 +44,7 @@ class UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    response :js
+    respond_to :js
   end
 
   private
