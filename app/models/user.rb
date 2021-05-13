@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include Gravtastic
+
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
 
   before_save :downcase_email
@@ -9,6 +11,7 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 6 }
 
   has_secure_password
+  gravtastic
 
   private
 
