@@ -1,4 +1,3 @@
-
 User.create!(
   name:  "Example User",
   email: "example@railstutorial.org",
@@ -35,3 +34,10 @@ end
     user_id: 100
   )
 end
+
+user  = User.first
+users = User.all
+following = users[2..50]
+followers = users[3..40]
+following.each { |followed| user.follow(followed) }
+followers.each { |follower| follower.follow(user) }
