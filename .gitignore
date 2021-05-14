@@ -42,3 +42,8 @@ yarn-debug.log*
 test/controllers
 test/models
 test/fixtures
+test/mailers
+.env
+
+# Ignore application configuration
+/config/application.yml
