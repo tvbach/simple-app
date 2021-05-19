@@ -16,6 +16,7 @@ gem "bootsnap", ">= 1.4.4", require: false
 gem "faker"
 gem "kaminari"
 gem "bootstrap4-kaminari-views"
+gem "figaro"
 
 group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]

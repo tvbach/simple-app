@@ -14,7 +14,7 @@ module SessionsHelper
       @current_user ||= User.find_by id: user_id
     else user_id = cookies.signed[:user_id]
       user = User.find_by id: user_id
-      return unless user&.authenticated? cookies[:remember_token]
+      return unless user&.authenticated? :remember, cookies[:remember_token]
 
       log_in user
       @current_user = user
@@ -23,6 +23,20 @@ module SessionsHelper
 
   def logged_in?
     current_user.present?
+  end
+
+  def logged_in_user
+    return if logged_in?
+
+    store_location
+    flash[:danger] = "Please log in."
+    redirect_to login_path
+  end
+
+  def forget user
+    user.forget
+    cookies.delete(:user_id)
+    cookies.delete(:remember_token)
   end
 
   def forget user

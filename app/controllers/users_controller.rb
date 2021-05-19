@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
+  before_action :logged_in_user, only: %i(show index edit update)
   before_action :find_user, only: %i(show edit update destroy)
   before_action :correct_user, only: %i(edit update)
-  before_action :logged_in_user, only: %i(index edit update)
   before_action :check_admin, only: :destroy
 
   def index
@@ -17,9 +17,9 @@ class UsersController < ApplicationController
   def create
     @user = User.new user_params
     if @user.save
-      log_in @user
-      flash[:success] = "Wellcome to Simple App"
-      redirect_to @user
+      @user.send_activation_email
+      flash[:info] = "Please check your email to activate your account."
+      redirect_to root_path
     else
       render :new
     end
@@ -51,14 +51,6 @@ class UsersController < ApplicationController
 
   def find_user
     @user = User.find params[:id]
-  end
-
-  def logged_in_user
-    return if logged_in?
-
-    store_location
-    flash[:danger] = "Please log in."
-    redirect_to login_path
   end
 
   def correct_user
