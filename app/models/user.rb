@@ -15,6 +15,8 @@ class User < ApplicationRecord
   has_secure_password
   gravtastic
 
+  enum role: {user: 0, admin: 1}
+
   class << self
     def digest string
       cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
