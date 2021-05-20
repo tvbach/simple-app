@@ -13,8 +13,14 @@ class User < ApplicationRecord
     format: { with: VALID_EMAIL_REGEX }, uniqueness: true
   validates :password, presence: true, length: { minimum: 6 }
 
+  has_many :microposts, dependent: :destroy
+
   has_secure_password
   gravtastic
+
+  scope :feed, (lambda do |id|
+    Micropost.where "user_id = ?", "#{id}" if id.present?
+  end)
 
   enum role: {user: 0, admin: 1}
 
@@ -22,7 +28,7 @@ class User < ApplicationRecord
     def digest string
       cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
                                                     BCrypt::Engine.cost
-      BCrypt::Password.create(string, cost: cost)
+      BCrypt::Password.create string, cost: cost
     end
 
     def new_token
@@ -54,13 +60,12 @@ class User < ApplicationRecord
     UserMailer.account_activation(self).deliver_now
   end
 
-
   def create_reset_digest
     self.reset_token = User.new_token
     update_attribute(:reset_digest, User.digest(reset_token))
     update_attribute(:reset_sent_at, Time.zone.now)
   end
-    # Sends password reset email.
+
   def send_password_reset_email
     UserMailer.password_reset(self).deliver_now
   end
