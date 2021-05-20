@@ -1,5 +1,5 @@
 <li class="user_item-<%= user.id %>">
-  <%= image_tag user.gravatar_url %>
+  <%= image_tag user.gravatar_url, class: "avt" %>
   <%= link_to user.name, user %>
   <% if current_user.admin? %>
     | <%= link_to "delete", user, method: :delete,

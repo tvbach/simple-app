@@ -13,6 +13,8 @@ User.create!(
   name = Faker::Name.name
   email = "example-#{n+1}@railstutorial.org"
   password = "password"
+  content = Faker::Food.description
+  user_id = n + 1
   User.create!(
     name: name,
     email: email,
@@ -20,5 +22,16 @@ User.create!(
     password_confirmation: password,
     activated: true,
     activated_at: Time.zone.now
+  )
+  Micropost.create(
+    content: content,
+    user_id: user_id
+  )
+end
+
+10.times do |n|
+  Micropost.create(
+    content: Faker::Food.description,
+    user_id: 100
   )
 end
