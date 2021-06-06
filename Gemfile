@@ -4,7 +4,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "2.7.0"
 
 gem "rails", "~> 6.1.0"
-gem "sqlite3", "~> 1.4"
 gem "puma", "~> 5.0"
 gem "sass-rails", ">= 6"
 gem "webpacker", "~> 5.0"
@@ -19,6 +18,7 @@ gem "bootstrap4-kaminari-views"
 gem "figaro"
 
 group :development, :test do
+  gem "sqlite3"
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
 end
 
@@ -31,8 +31,8 @@ group :development do
 end
 
 group :production do
-  gem "pg", "~> 0.18"
-  gem "rails_12factor", "0.0.2"
+  gem "pg"
+  gem "rails_12factor"
 end
 
 group :test do

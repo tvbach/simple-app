@@ -6,6 +6,7 @@ class UsersController < ApplicationController
 
   def index
     @users = User.user.where(activated: true).page(params[:page]).per(10)
+    asasasas
   end
 
   def new
