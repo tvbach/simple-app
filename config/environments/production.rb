@@ -124,4 +124,14 @@ Rails.application.configure do
     logger.formatter = config.log_formatter
     config.logger = ActiveSupport::TaggedLogging.new(logger)
   end
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    user_name: ENV["user_name"],
+    password: ENV["password"],
+    address: ENV["address"],
+    domain: ENV["domain"],
+    port: ENV["port"],
+    authentication: :cram_md5
+  }
 end
